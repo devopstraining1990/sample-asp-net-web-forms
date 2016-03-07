@@ -13,13 +13,11 @@ namespace WebApplication2
 {
     public partial class About : Page
     {
-        public string otp;
+        public string ot;
         protected void Page_Load(object sender, EventArgs e)
         {
-            otp = "";
-            string video_id = "VIDEO_ID";          // This should be obtained from DB
-            // The API Secret should not be hard-coded inside the application
-            string api_secret = "API_SECRET_KEY"; ;
+            string video_id = "VIDEO_ID";
+            string api_secret = System.Web.Configuration.WebConfigurationManager.AppSettings["VdoCipher_API_Key"]; ;
             string uri = "https://api.vdocipher.com/v2/otp/?video=" + video_id;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = "POST";
@@ -34,7 +32,7 @@ namespace WebApplication2
             {
                 string json_otp = reader.ReadToEnd();
                 otp_data = JObject.Parse(json_otp);
-                otp = otp_data.otp;
+                ot = otp_data.otp;
             }
         }
     }
